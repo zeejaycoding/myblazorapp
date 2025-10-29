@@ -1,0 +1,161 @@
+@page "/user-form"
+
+<PageTitle>User Registration Form</PageTitle>
+
+<div class="container mt-4">
+    <h1 class="mb-4">Detailed User Registration</h1>
+
+    <EditForm Model="@user" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group mb-3">
+                    <label for="firstName">First Name:</label>
+                    <InputText id="firstName" class="form-control" @bind-Value="user.FirstName" />
+                    <ValidationMessage For="@(() => user.FirstName)" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="lastName">Last Name:</label>
+                    <InputText id="lastName" class="form-control" @bind-Value="user.LastName" />
+                    <ValidationMessage For="@(() => user.LastName)" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="email">Email:</label>
+                    <InputText id="email" class="form-control" @bind-Value="user.Email" />
+                    <ValidationMessage For="@(() => user.Email)" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="phoneNumber">Phone Number:</label>
+                    <InputText id="phoneNumber" class="form-control" @bind-Value="user.PhoneNumber" />
+                    <ValidationMessage For="@(() => user.PhoneNumber)" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group mb-3">
+                    <label for="dateOfBirth">Date of Birth:</label>
+                    <InputDate id="dateOfBirth" class="form-control" @bind-Value="user.DateOfBirth" />
+                    <ValidationMessage For="@(() => user.DateOfBirth)" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="role">Role:</label>
+                    <InputSelect id="role" class="form-control" @bind-Value="user.Role">
+                        <option value="">Select a role...</option>
+                        <option value="User">User</option>
+                        <option value="Admin">Admin</option>
+                        <option value="Manager">Manager</option>
+                        <option value="Developer">Developer</option>
+                        <option value="Analyst">Analyst</option>
+                    </InputSelect>
+                    <ValidationMessage For="@(() => user.Role)" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="department">Department:</label>
+                    <InputSelect id="department" class="form-control" @bind-Value="user.Department">
+                        <option value="">Select a department...</option>
+                        <option value="IT">IT</option>
+                        <option value="HR">HR</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Operations">Operations</option>
+                    </InputSelect>
+                    <ValidationMessage For="@(() => user.Department)" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>
+                        <InputCheckbox @bind-Value="user.IsActive" />
+                        Active User
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="address">Address:</label>
+            <InputTextArea id="address" class="form-control" @bind-Value="user.Address" rows="3" />
+            <ValidationMessage For="@(() => user.Address)" />
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="comments">Additional Comments:</label>
+            <InputTextArea id="comments" class="form-control" @bind-Value="user.Comments" rows="3" />
+            <ValidationMessage For="@(() => user.Comments)" />
+        </div>
+
+        <div class="form-group mb-3">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" class="btn btn-secondary ms-2" @onclick="ResetForm">Reset</button>
+        </div>
+    </EditForm>
+
+    @if (showSuccessMessage)
+    {
+        <div class="alert alert-success mt-3">
+            Form submitted successfully!
+        </div>
+    }
+</div>
+
+@code {
+    private UserModel user = new();
+    private bool showSuccessMessage = false;
+
+    private void HandleValidSubmit()
+    {
+        // Handle the form submission here
+        Console.WriteLine($"Form submitted for {user.FirstName} {user.LastName}");
+        showSuccessMessage = true;
+        StateHasChanged();
+    }
+
+    private void ResetForm()
+    {
+        user = new UserModel();
+        showSuccessMessage = false;
+        StateHasChanged();
+    }
+
+    public class UserModel
+    {
+        [Required(ErrorMessage = "First Name is required")]
+        [StringLength(50, ErrorMessage = "First Name is too long")]
+        public string FirstName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Last Name is required")]
+        [StringLength(50, ErrorMessage = "Last Name is too long")]
+        public string LastName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email format")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Phone Number is required")]
+        [Phone(ErrorMessage = "Invalid phone number format")]
+        public string PhoneNumber { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Date of Birth is required")]
+        public DateTime DateOfBirth { get; set; } = DateTime.Today;
+
+        [Required(ErrorMessage = "Role is required")]
+        public string Role { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Department is required")]
+        public string Department { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Address is required")]
+        [StringLength(200, ErrorMessage = "Address is too long")]
+        public string Address { get; set; } = string.Empty;
+
+        public string Comments { get; set; } = string.Empty;
+
+        public bool IsActive { get; set; } = true;
+    }
+}

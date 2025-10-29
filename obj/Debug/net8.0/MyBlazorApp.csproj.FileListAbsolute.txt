@@ -1029,3 +1029,4 @@ C:\Users\HP\Documents\ZahabUniWork\7th Semester\ICC\lab mid\MyBlazorApp\obj\Debu
 C:\Users\HP\Documents\ZahabUniWork\7th Semester\ICC\lab mid\MyBlazorApp\obj\Debug\net8.0\refint\MyBlazorApp.dll
 C:\Users\HP\Documents\ZahabUniWork\7th Semester\ICC\lab mid\MyBlazorApp\obj\Debug\net8.0\MyBlazorApp.pdb
 C:\Users\HP\Documents\ZahabUniWork\7th Semester\ICC\lab mid\MyBlazorApp\obj\Debug\net8.0\ref\MyBlazorApp.dll
+C:\Users\HP\Documents\ZahabUniWork\7th Semester\ICC\lab mid\MyBlazorApp\obj\Debug\net8.0\MyBlazorApp.sourcelink.json
