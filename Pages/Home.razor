@@ -1,0 +1,71 @@
+﻿@page "/"
+
+<PageTitle>User Registration</PageTitle>
+
+<h1>User Registration Form</h1>
+
+<div class="container mt-4">
+    <EditForm Model="@user" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group mb-3">
+            <label for="firstName">First Name:</label>
+            <InputText id="firstName" class="form-control" @bind-Value="user.FirstName" />
+            <ValidationMessage For="@(() => user.FirstName)" />
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="lastName">Last Name:</label>
+            <InputText id="lastName" class="form-control" @bind-Value="user.LastName" />
+            <ValidationMessage For="@(() => user.LastName)" />
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="email">Email:</label>
+            <InputText id="email" class="form-control" @bind-Value="user.Email" />
+            <ValidationMessage For="@(() => user.Email)" />
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="role">Role:</label>
+            <InputSelect id="role" class="form-control" @bind-Value="user.Role">
+                <option value="">Select a role...</option>
+                <option value="User">User</option>
+                <option value="Admin">Admin</option>
+                <option value="Manager">Manager</option>
+            </InputSelect>
+            <ValidationMessage For="@(() => user.Role)" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </EditForm>
+</div>
+
+@code {
+    private UserModel user = new();
+
+    private void HandleValidSubmit()
+    {
+        // Handle the form submission here
+        Console.WriteLine($"Form submitted for {user.FirstName} {user.LastName}");
+    }
+
+    public class UserModel
+    {
+        [Required(ErrorMessage = "First Name is required")]
+        [StringLength(50, ErrorMessage = "First Name is too long")]
+        public string FirstName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Last Name is required")]
+        [StringLength(50, ErrorMessage = "Last Name is too long")]
+        public string LastName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email format")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Role is required")]
+        public string Role { get; set; } = string.Empty;
+    }
+}
